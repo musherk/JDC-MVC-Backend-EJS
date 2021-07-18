@@ -13,7 +13,51 @@
         <%- include('../../partials/header'); %>
     </header>
     <main class="container position">
+        <div>
+            <form action="/api/sheets" method="POST">
+                <h2>Ajouter une fiche</h2>
+                <% if(isAdded) {%>
+                    <div role="alert" class="alert alert-success">
+                        <%= message %>
+                    </div>
+                    <% } 
+                    if(isError) {%>
+                        <div role="alert" class="alert alert-danger">
+                            <%= message %>
+                        </div>
+                        <% } %>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="teacher">Cours</label><br />
+                                        <select id="lesson_id" name="lesson_id" class="form-control">
+                                <% lessons.forEach(function(lesson) { %>
+                                    <option name="<%= lesson.id %>"  value="<%= lesson.id%>">
+                                        <%= lesson.name%>
+                                   </option>
+                                <% }); %>
+                            </select>
 
+                                    </div>
+                                    <!--<div class="form-group">
+                                        <label for="teacher">Professeur</label>
+                                        <input type="text" id="teacher" disabled class="form-control form-control-lg" name="name" />
+                                    </div>-->
+                                    <div class="form-group">
+                                        <label for="local_number">Local</label>
+                                        <input type="text" id="local_number" name="local_number" class="form-control form-control-lg" required/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description">Description</label>
+                                        <textarea class="form-control" required name="description" id="description" rows="4"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <button class="btn btn-light btn-lg mr-2"><a class="nav-link" href="/sheets">Annuler</a></button>
+                            <button type="submit" class="btn btn-primary btn-lg ">Ajouter</button>
+            </form>
+        </div>
     </main>
     <footer>
         <%- include('../../partials/footer'); %>

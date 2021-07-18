@@ -22,14 +22,19 @@
                         <% } %>
                 </div>
                 <div class="col-2">
-                    <!--  <div class="form-group">
-                    <select class="form-select" @change="onLessonChange($event)" v-model="lessonSelected" required>
-                  <option v-bind:value="-1" selected>Afficher toutes les fiches</option>
-                  <option v-for="lesson in lessons" v-bind:key="lesson.id" v-bind:value="lesson.id">
-                      {{ lesson.name }}
-                  </option>
-              </select>
-                </div> -->
+                    <div class="form-group">
+                        <form action="/sheets/filter" method="POST">
+                            <select id="lesson_id" name="lesson_id" class="form-control">
+                            <option name="all" value="-1" selected >Afficher toutes les fiches</option>
+                            <% lessons.forEach(function(lesson) { %>
+                                <option name="<%= lesson.id %>"  value="<%= lesson.id%>">
+                                    <%= lesson.name%>
+                            </option>
+                            <% }); %>
+                            </select>
+                            <button type="submit" class="btn btn-info">Filtrer</button>
+                        </form>
+                    </div>
                 </div>
                 <div class="col-2">
                     <a class="btn btn-success" href="/sheets/add">Ajouter une fiche</a>

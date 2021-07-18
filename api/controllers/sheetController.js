@@ -8,7 +8,7 @@ const Teacher = require("../models/teacherModel");
  * @param {*} res 
  */
 exports.pageSheets = (req, res) => {
-    Sheet.getSheets((err, sheets) => {
+    Sheet.getSheetByLesson(req.body.lesson_id, (err, sheets) => {
         if (err) {
             res.status(500).send({
                 message: "Une erreur s'est produite au niveau du serveur !",
@@ -26,8 +26,29 @@ exports.pageSheets = (req, res) => {
                         res.render('pages/sheets/sheetList', { sheets, teachers, lessons });
                     })
                 }
-            })
+            });
+        }
+    })
+}
 
+exports.pageSheetsFilter = (req, res) => {
+    this.pageSheets(req, res);
+}
+
+/**
+ * Page permettant d'ajouter une fiche
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.pageAddSheet = (req, res) => {
+    Lesson.getLessons((err, lessons) => {
+        if (err) {
+            res.status(500).send({
+                message: "Une erreur s'est produite au niveau du serveur !",
+                status: 500
+            });
+        } else {
+            res.render('pages/sheets/sheetAdd', { message: '', isAdded: false, isError: false, lessons });
         }
     })
 }
@@ -184,7 +205,7 @@ exports.updateSheet = (req, res) => {
  * @param {*} res 
  */
 exports.saveSheet = (req, res) => {
-    let { local_number, description, lesson_id, teacher_id } = req.body;
+    let { local_number, description, lesson_id } = req.body;
     Lesson.getLessonById(lesson_id, (err, data) => {
         if (err) {
             res.status(500).send({
@@ -193,7 +214,7 @@ exports.saveSheet = (req, res) => {
             });
         } else {
             if (data) {
-                const sheet = new Sheet(local_number, description, lesson_id, teacher_id);
+                const sheet = new Sheet(local_number, description, lesson_id, data.teacher_id);
                 sheet.saveSheet((err, data) => {
                     if (err) {
                         res.status(500).send({
@@ -202,10 +223,16 @@ exports.saveSheet = (req, res) => {
                         });
                     } else {
                         if (data.affectedRows) {
-                            res.status(201).send({
-                                message: `La fiche a été ajoutée !`,
-                                status: 201
-                            });
+                            Lesson.getLessons((err, lessons) => {
+                                if (err) {
+                                    res.status(500).send({
+                                        message: "Une erreur s'est produite au niveau du serveur !",
+                                        status: 500
+                                    });
+                                } else {
+                                    res.render('pages/sheets/sheetAdd', { message: `La fiche a été ajoutée !`, isError: false, isAdded: true, lessons });
+                                }
+                            })
                         }
                     }
                 });

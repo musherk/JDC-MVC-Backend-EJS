@@ -31,7 +31,9 @@ module.exports = (app) => {
     /**Sheet */
     const sheets = require('./controllers/sheetController.js');
     app.get('/sheets', sheets.pageSheets);
-    //app.get('/sheets/add', sheets.pageAddSheet);
+    app.post('/sheets/filter', sheets.pageSheetsFilter);
+
+    app.get('/sheets/add', sheets.pageAddSheet);
     app.get('/api/sheets', sheets.getSheets);
     app.get('/api/sheets/:id', sheets.getSheet);
     app.get('/api/sheets/lesson/:lesson', sheets.getSheetsByLesson)

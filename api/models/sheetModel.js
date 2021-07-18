@@ -1,4 +1,5 @@
 const db = require('../config/db.js');
+const { getLessons } = require('./lessonModel.js');
 
 class Sheet {
 
@@ -31,15 +32,27 @@ class Sheet {
      * @param {*} result 
      */
     static getSheetByLesson(lesson_id, result) {
-        db.query(
-            'SELECT * FROM sheets WHERE lesson_id = ?', [lesson_id], (err, data) => {
-                if (err) {
-                    result(err, null)
-                } else {
-                    result(null, data);
+        if (lesson_id && lesson_id != -1) {
+            db.query(
+                'SELECT * FROM sheets WHERE lesson_id = ?', [lesson_id], (err, data) => {
+                    if (err) {
+                        result(err, null)
+                    } else {
+                        result(null, data);
+                    }
                 }
-            }
-        );
+            );
+        } else {
+            db.query(
+                'SELECT * FROM sheets', (err, data) => {
+                    if (err) {
+                        result(err, null)
+                    } else {
+                        result(null, data);
+                    }
+                }
+            );
+        }
     }
 
     /**
