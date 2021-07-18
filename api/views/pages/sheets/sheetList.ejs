@@ -41,9 +41,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="row">
-                                    <div class="col-10"><b> <%= lessons.find(lesson => lesson.id == sheet.lesson_id).name %> -  <%= teachers.find(teacher => teacher.id == sheet.teacher_id).name %> - <%= sheet.local_number %></b></div>
-                                    <div class="col-1 align-self-end"><a href="/sheets/edit/<%= sheet.id %>"><button class="btn btn-warning">Editer</button></a></div>
-                                    <div class="col-1"><button type="button" class="btn btn-danger">Supprimer</button></div>
+                                    <div class="col-9"><b> <%= lessons.find(lesson => lesson.id == sheet.lesson_id)?.name %> -  <%= teachers.find(teacher => teacher.id == sheet.teacher_id)?.name %> - <%= sheet.local_number %></b></div>
+                                    <div class="col-1"><a href="/sheets/edit/<%= sheet.id %>"><button class="btn btn-warning">Editer</button></a></div>
+                                    <div class="col-1"><a href="/sheets/delete/<%= sheet.id %>"><button type="button" class="btn btn-danger">Supprimer</button></a></div>
                                 </div>
                             </div>
                             <div class="card-body">

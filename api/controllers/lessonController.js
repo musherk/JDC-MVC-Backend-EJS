@@ -102,7 +102,7 @@ exports.deleteLesson = (req, res) => {
             });
         } else {
             if (data.affectedRows != 0) {
-                res.status(200).send({ message: `Le cours avec l'id '${id}' a été supprimé avec succès !`, status: 200 });
+                res.redirect("/lessons");
             } else {
                 res.status(404).send({ message: `Le cours avec l'id '${id}' n'existe pas !`, status: 404 });
             }

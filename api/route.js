@@ -12,7 +12,7 @@ module.exports = (app) => {
     app.get('/api/teachers', teachers.getTeachers);
     app.get('/api/teachers/:id', teachers.getTeacher);
     app.post('/api/teachers', teachers.saveTeacher);;
-    app.delete('/api/teachers/:id', teachers.deleteTeacher);
+    app.get('/teachers/delete/:id', teachers.deleteTeacher);
     app.put('/api/teachers/:id', teachers.updateTeacher);
 
     /**Lesson */
@@ -22,7 +22,7 @@ module.exports = (app) => {
     app.get('/api/lessons/:id', lessons.getLesson);
     app.get('/api/lessons/teacher/:id', lessons.getLessonsByTeacher);
     app.post('/api/lessons', lessons.saveLesson);;
-    app.delete('/api/lessons/:id', lessons.deleteLesson);
+    app.get('/lessons/delete/:id', lessons.deleteLesson);
     app.put('/api/lessons/:id', lessons.updateLesson);
 
 
@@ -33,7 +33,7 @@ module.exports = (app) => {
     app.get('/api/sheets/:id', sheets.getSheet);
     app.get('/api/sheets/lesson/:lesson', sheets.getSheetsByLesson)
     app.post('/api/sheets', sheets.saveSheet);;
-    app.delete('/api/sheets/:id', sheets.deleteSheet);
+    app.get('/sheets/delete/:id', sheets.deleteSheet);
     app.put('/api/sheets/:id', sheets.updateSheet);
 
 }

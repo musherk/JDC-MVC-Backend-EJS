@@ -31,9 +31,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="row">
-                                    <div class="col-10"><b> <%= lesson.name %></b></div>
-                                    <div class="col-1 align-self-end"><a href="/lessons/edit/<%= lesson.id %>"><button class="btn btn-warning">Editer</button></a></div>
-                                    <div class="col-1"><button type="button" class="btn btn-danger">Supprimer</button></div>
+                                    <div class="col-9"><b> <%= lesson.name %></b></div>
+                                    <div class="col-1"><a href="/lessons/edit/<%= lesson.id %>"><button class="btn btn-warning">Editer</button></a></div>
+                                    <div class="col-1"><a href="/lessons/delete/<%= lesson.id %>"><button type="button" class="btn btn-danger">Supprimer</button></a></div>
                                 </div>
                             </div>
                             <div class="card-body">

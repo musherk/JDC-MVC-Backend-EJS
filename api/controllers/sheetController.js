@@ -128,7 +128,7 @@ exports.deleteSheet = (req, res) => {
             });
         } else {
             if (data.affectedRows != 0) {
-                res.status(200).send({ message: `La fiche avec l'id '${id}' a été supprimée avec succès !`, status: 200 });
+                res.redirect("/sheets");
             } else {
                 res.status(404).send({ message: `La fiche avec l'id '${id}' n'existe pas !`, status: 404 });
             }
