@@ -30,6 +30,26 @@ exports.pageLessons = (req, res) => {
 }
 
 /**
+ * Page permettant d'ajouter un professeur
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.pageAddLesson = (req, res) => {
+    Teacher.getTeachers((err, teachers) => {
+        if (err) {
+            res.status(500).send({
+                message: "Une erreur s'est produite au niveau du serveur !",
+                status: 500
+            });
+        } else {
+            res.render('pages/lessons/lessonAdd', { message: '', isAdded: false, isError: false, teachers });
+        }
+    })
+
+}
+
+
+/**
  * Récupérer la liste des cours
  * @param {*} req 
  * @param {*} res 
@@ -188,10 +208,16 @@ exports.saveLesson = (req, res) => {
                 lesson.saveLesson((err, data) => {
                     if (err) {
                         if (err.code === 'ER_DUP_ENTRY') {
-                            res.status(409).send({
-                                message: "Ce cours existe déjà !",
-                                status: 409
-                            });
+                            Teacher.getTeachers((err, teachers) => {
+                                if (err) {
+                                    res.status(500).send({
+                                        message: "Une erreur s'est produite au niveau du serveur !",
+                                        status: 500
+                                    });
+                                } else {
+                                    res.render('pages/lessons/lessonAdd', { message: "Ce cours existe déjà !", isError: true, isAdded: false, teachers });
+                                }
+                            })
                         } else {
                             res.status(500).send({
                                 message: "Une erreur s'est produite au niveau du serveur !",
@@ -200,10 +226,16 @@ exports.saveLesson = (req, res) => {
                         }
                     } else {
                         if (data.affectedRows) {
-                            res.status(201).send({
-                                message: `Le cours ${name} a été ajouté !`,
-                                status: 201
-                            });
+                            Teacher.getTeachers((err, teachers) => {
+                                if (err) {
+                                    res.status(500).send({
+                                        message: "Une erreur s'est produite au niveau du serveur !",
+                                        status: 500
+                                    });
+                                } else {
+                                    res.render('pages/lessons/lessonAdd', { message: `Le cours ${name} a été ajouté !`, isError: false, isAdded: true, teachers });
+                                }
+                            })
                         }
                     }
                 });

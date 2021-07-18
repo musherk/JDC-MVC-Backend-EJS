@@ -30,6 +30,15 @@ exports.pageTeachers = (req, res) => {
 }
 
 /**
+ * Page permettant d'ajouter un professeur
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.pageAddTeacher = (req, res) => {
+    res.render('pages/teachers/teacherAdd', { message: '', isAdded: false, isError: false });
+}
+
+/**
  * Récupérer la liste des professeurs
  * @param {*} req 
  * @param {*} res 
@@ -155,10 +164,7 @@ exports.saveTeacher = (req, res) => {
     teacher.saveTeacher((err, data) => {
         if (err) {
             if (err.code === 'ER_DUP_ENTRY') {
-                res.status(409).send({
-                    message: "Ce professeur existe déjà !",
-                    status: 409
-                });
+                res.render('pages/teachers/teacherAdd', { message: "Ce professeur existe déjà !", isError: true, isAdded: false });
             } else {
                 res.status(500).send({
                     message: "Une erreur s'est produite au niveau du serveur !",
@@ -167,10 +173,7 @@ exports.saveTeacher = (req, res) => {
             }
         } else {
             if (data.affectedRows) {
-                res.status(201).send({
-                    message: `Le professeur ${name} a été ajouté !`,
-                    status: 201
-                });
+                res.render('pages/teachers/teacherAdd', { message: `Le professeur ${name} a été ajouté !`, isError: false, isAdded: true });
             }
         }
     })

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <%- include('../../partials/head'); %>
+        <title>
+            Ajouter un cours
+        </title>
+</head>
+
+<body>
+    <header>
+        <%- include('../../partials/header'); %>
+    </header>
+    <main class="container position">
+        <div>
+            <form action="/api/lessons" method="POST">
+                <h2>Ajouter un cours</h2>
+                <% if(isAdded) {%>
+                    <div role="alert" class="alert alert-success">
+                        <%= message %>
+                    </div>
+                    <% } 
+                    if(isError) {%>
+                        <div role="alert" class="alert alert-danger">
+                            <%= message %>
+                        </div>
+                        <% } %>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="name">Nom du cours</label>
+                                        <input type="text" id="name" name="name" class="form-control form-control-lg" required/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="teacher_id">Professeur</label><br />
+                                        <select id="teacher_id" name="teacher_id" class="form-control">
+                                        <% teachers.forEach(function(teacher) { %>
+                                            <option name="<%= teacher.id %>"  value="<%= teacher.id%>">
+                                                <%= teacher.name%>
+                                           </option>
+                                        <% }); %>
+                                    </select>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <button class="btn btn-light btn-lg mr-2"><a class="nav-link" href="/lessons">Annuler</a></button>
+                            <button type="submit" class="btn btn-primary btn-lg ">Ajouter</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <%- include('../../partials/footer'); %>
+    </footer>
+
+</body>
+
+</html>
