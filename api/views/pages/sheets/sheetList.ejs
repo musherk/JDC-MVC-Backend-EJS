@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <%- include('../../partials/head'); %>
+        <title>
+            Journal
+        </title>
+</head>
+
+<body>
+    <header>
+        <%- include('../../partials/header'); %>
+    </header>
+    <main class="container position">
+        <div class="sheet">
+            <div class="row">
+                <div class="col-6">
+                    <h1>Les fiches</h1>
+                    <% if(sheets.length != 0){ %>
+                        <i>Il y a <%= sheets.length %> fiche(s)</i>
+                        <% } %>
+                </div>
+                <div class="col-2">
+                    <!--  <div class="form-group">
+                    <select class="form-select" @change="onLessonChange($event)" v-model="lessonSelected" required>
+                  <option v-bind:value="-1" selected>Afficher toutes les fiches</option>
+                  <option v-for="lesson in lessons" v-bind:key="lesson.id" v-bind:value="lesson.id">
+                      {{ lesson.name }}
+                  </option>
+              </select>
+                </div> -->
+                </div>
+                <div class="col-2">
+                    <a class="btn btn-success" href="/sheets/add">Ajouter une fiche</a>
+                </div>
+            </div>
+            <% sheets.forEach(function(sheet,i) { %>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-10"><b> <%= lessons.find(lesson => lesson.id == sheet.lesson_id).name %> -  <%= teachers.find(teacher => teacher.id == sheet.teacher_id).name %> - <%= sheet.local_number %></b></div>
+                                    <div class="col-1 align-self-end"><a href="/sheets/edit/<%= sheet.id %>"><button class="btn btn-warning">Editer</button></a></div>
+                                    <div class="col-1"><button type="button" class="btn btn-danger">Supprimer</button></div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <p>
+                                        <%= sheet.description %>
+                                    </p>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+                    <% if(sheets.length == 0){ %>
+                        <div>
+                            Il n'y a aucune fiche actuellement...
+                        </div>
+                        <% } %>
+        </div>
+    </main>
+    <footer>
+        <%- include('../../partials/footer'); %>
+    </footer>
+
+</body>
+
+</html>

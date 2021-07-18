@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <%- include('../../partials/head'); %>
+        <title>
+            Cours
+        </title>
+</head>
+
+<body>
+    <header>
+        <%- include('../../partials/header'); %>
+    </header>
+    <main class="container position">
+        <div class="lesson">
+            <div class="row">
+                <div class="col-10">
+                    <h1>Les cours</h1>
+                    <% if(lessons.length != 0){ %>
+                        <i>Il y a <%= lessons.length %> cours</i>
+                        <% } %>
+                </div>
+                <div class="col-2">
+                    <a class="btn btn-success" href="/lessons/add">Ajouter un cours</a>
+                </div>
+            </div>
+            <% lessons.forEach(function(lesson,i) { %>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-10"><b> <%= lesson.name %></b></div>
+                                    <div class="col-1 align-self-end"><a href="/lessons/edit/<%= lesson.id %>"><button class="btn btn-warning">Editer</button></a></div>
+                                    <div class="col-1"><button type="button" class="btn btn-danger">Supprimer</button></div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <p><i> <%= teachers.find(teacher => teacher.id == lesson.teacher_id).name %></i> est le professeur
+                                        <%=(("aeiouAEIOU").indexOf(lesson.name[0]) !== -1 ? "d'": "de ") %><b><%= lesson.name %></b></p>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+
+                    <% if(lessons.length == 0){ %>
+                        <div>
+                            Il n'y a aucun cours actuellement...
+                        </div>
+                        <% } %>
+        </div>
+    </main>
+    <footer>
+        <%- include('../../partials/footer'); %>
+    </footer>
+
+</body>
+
+</html>
