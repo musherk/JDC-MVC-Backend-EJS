@@ -31,6 +31,11 @@ exports.pageSheets = (req, res) => {
     })
 }
 
+/**
+ * Permet de filtrer les fiches selon un cours précis
+ * @param {*} req Dans le req, on récupère lesson_id qui contient l'identifiant du cours sur lequel filtrer
+ * @param {*} res 
+ */
 exports.pageSheetsFilter = (req, res) => {
     this.pageSheets(req, res);
 }
@@ -52,6 +57,34 @@ exports.pageAddSheet = (req, res) => {
         }
     })
 }
+
+/**
+ * Page permettant d'éditer une fiche
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.pageEditSheet = (req, res) => {
+    Sheet.getSheetById(req.params.id, (err, sheet) => {
+        if (err) {
+            res.status(500).send({
+                message: "Une erreur s'est produite au niveau du serveur !",
+                status: 500
+            });
+        } else {
+            Lesson.getLessons((err, lessons) => {
+                if (err) {
+                    res.status(500).send({
+                        message: "Une erreur s'est produite au niveau du serveur !",
+                        status: 500
+                    });
+                } else {
+                    res.render('pages/sheets/sheetEdit', { message: '', isAdded: false, isError: false, lessons, sheet });
+                }
+            })
+        }
+    })
+}
+
 
 /**
  * Récupérer la liste des fiches
@@ -164,17 +197,17 @@ exports.deleteSheet = (req, res) => {
  * @param {*} res 
  */
 exports.updateSheet = (req, res) => {
-    let { local_number, description, lesson_id, teacher_id } = req.body;
+    let { local_number, description, lesson_id } = req.body;
     let id = req.params.id;
-    let sheet = new Sheet(local_number, description, lesson_id, teacher_id);
-    Lesson.getLessonById(lesson_id, (err, data) => {
+    Lesson.getLessonById(lesson_id, (err, lesson) => {
         if (err) {
             res.status(500).send({
                 message: "Une erreur s'est produite au niveau du serveur !",
                 status: 500
             });
         } else {
-            if (data) {
+            if (lesson) {
+                let sheet = new Sheet(local_number, description, lesson_id, lesson.teacher_id);
                 Sheet.updateSheet(id, sheet, (err, data) => {
                     if (err) {
                         res.status(500).send({
@@ -183,10 +216,16 @@ exports.updateSheet = (req, res) => {
                         });
                     } else {
                         if (data.affectedRows) {
-                            res.status(201).send({
-                                message: "Modification effectuée avec succès",
-                                status: 201
-                            });
+                            Lesson.getLessons((err, lessons) => {
+                                if (err) {
+                                    res.status(500).send({
+                                        message: "Une erreur s'est produite au niveau du serveur !",
+                                        status: 500
+                                    });
+                                } else {
+                                    res.render('pages/sheets/sheetEdit', { message: 'Modification effectuée avec succès', isAdded: true, isError: false, lessons, sheet: { id, local_number, description, lesson_id, teacher_id: lesson.teacher_id } });
+                                }
+                            })
                         } else {
                             res.status(404).send({ message: `La fiche avec l'id '${id}' n'existe pas !`, status: 404 });
                         }

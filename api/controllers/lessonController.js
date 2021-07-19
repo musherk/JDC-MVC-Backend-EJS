@@ -48,6 +48,33 @@ exports.pageAddLesson = (req, res) => {
 
 }
 
+/**
+ * Page permettant d'éditer un professeur
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.pageEditLesson = (req, res) => {
+    Lesson.getLessonById(req.params.id, (err, lesson) => {
+        if (err) {
+            res.status(500).send({
+                message: "Une erreur s'est produite au niveau du serveur !",
+                status: 500
+            });
+        } else {
+            Teacher.getTeachers((err, teachers) => {
+                if (err) {
+                    res.status(500).send({
+                        message: "Une erreur s'est produite au niveau du serveur !",
+                        status: 500
+                    });
+                } else {
+                    res.render('pages/lessons/lessonEdit', { message: '', isAdded: false, isError: false, teachers, lesson });
+                }
+            })
+        }
+    })
+}
+
 
 /**
  * Récupérer la liste des cours
@@ -147,31 +174,35 @@ exports.updateLesson = (req, res) => {
             });
         } else {
             if (data) {
-                let lesson = new Lesson(name, teacher_id);
-                Lesson.updateLesson(id, lesson, (err, data) => {
+                Teacher.getTeachers((err, teachers) => {
                     if (err) {
-                        if (err.code === 'ER_DUP_ENTRY') {
-                            res.status(409).send({
-                                message: "Ce cours existe déjà !",
-                                status: 409
-                            });
-                        } else {
-                            res.status(500).send({
-                                message: "Une erreur s'est produite au niveau du serveur !",
-                                status: 500
-                            });
-                        }
+                        res.status(500).send({
+                            message: "Une erreur s'est produite au niveau du serveur !",
+                            status: 500
+                        });
                     } else {
-                        if (data.affectedRows) {
-                            res.status(201).send({
-                                message: "Modification effectuée avec succès",
-                                status: 201
-                            });
-                        } else {
-                            res.status(404).send({ message: `Le cours avec l'id '${id}' n'existe pas !`, status: 404 });
-                        }
+                        let lesson = new Lesson(name, teacher_id);
+                        Lesson.updateLesson(id, lesson, (err, data) => {
+                            if (err) {
+                                if (err.code === 'ER_DUP_ENTRY') {
+                                    res.render('pages/lessons/lessonEdit', { message: "Ce cours existe déjà !", isError: true, isAdded: false, teachers, lesson: { id, name: name, teacher_id } });
+                                } else {
+                                    res.status(500).send({
+                                        message: "Une erreur s'est produite au niveau du serveur !",
+                                        status: 500
+                                    });
+                                }
+                            } else {
+                                if (data.affectedRows) {
+                                    res.render('pages/lessons/lessonEdit', { message: "Modification effectuée avec succès", isError: false, isAdded: true, teachers, lesson: { id, name: name, teacher_id } });
+                                } else {
+                                    res.status(404).send({ message: `Le cours avec l'id '${id}' n'existe pas !`, status: 404 });
+                                }
+                            }
+                        })
                     }
-                })
+                });
+
             } else {
                 res.status(404).send({
                     message: `Le cours n'a pas été modifié car le professeur avec l'id '${teacher_id}' n'existe pas !`,

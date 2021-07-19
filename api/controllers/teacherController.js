@@ -39,6 +39,25 @@ exports.pageAddTeacher = (req, res) => {
 }
 
 /**
+ * Page permettant d'éditer un professeur
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.pageEditTeacher = (req, res) => {
+    Teacher.getTeacherById(req.params.id, (err, teacher) => {
+        if (err) {
+            res.status(500).send({
+                message: "Une erreur s'est produite au niveau du serveur !",
+                status: 500
+            });
+        } else {
+            res.render('pages/teachers/teacherEdit', { message: '', isAdded: false, isError: false, teacher });
+        }
+    })
+}
+
+
+/**
  * Récupérer la liste des professeurs
  * @param {*} req 
  * @param {*} res 
@@ -128,10 +147,7 @@ exports.updateTeacher = (req, res) => {
     Teacher.updateTeacher(id, teacher, (err, data) => {
         if (err) {
             if (err.code === 'ER_DUP_ENTRY') {
-                res.status(409).send({
-                    message: "Ce professeur existe déjà !",
-                    status: 409
-                });
+                res.render('pages/teachers/teacherEdit', { message: "Ce professeur existe déjà !", isError: true, isAdded: false, teacher: { id, name } });
             } else {
                 res.status(500).send({
                     message: "Une erreur s'est produite au niveau du serveur !",
@@ -140,10 +156,7 @@ exports.updateTeacher = (req, res) => {
             }
         } else {
             if (data.affectedRows) {
-                res.status(201).send({
-                    message: "Modification effectuée avec succès",
-                    status: 201
-                });
+                res.render('pages/teachers/teacherEdit', { message: "Modification effectuée avec succès", isError: false, isAdded: true, teacher: { id, name } });
             } else {
                 res.status(404).send({ message: `Le professeur avec l'id '${id}' n'existe pas !`, status: 404 });
             }
