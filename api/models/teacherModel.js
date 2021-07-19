@@ -7,7 +7,7 @@ class Teacher {
     }
 
     /**
-     * Get all teachers
+     * Récupérer tous les professeurs
      * @param {*} result 
      */
     static getTeachers(result) {
@@ -23,7 +23,7 @@ class Teacher {
     }
 
     /**
-     * Delete a teacher
+     * Supprimer un professeur
      * @param {*} id 
      * @param {*} result 
      */
@@ -39,7 +39,7 @@ class Teacher {
 
 
     /**
-     * Get a teacher by id
+     * Récupérer un professeur par son identifiant
      * @param {*} id 
      * @param {*} result 
      */
@@ -57,7 +57,7 @@ class Teacher {
 
 
     /**
-     * Save a teacher
+     * Sauvegarder un professeur
      * @param {*} result 
      */
     saveTeacher(result) {
@@ -71,7 +71,7 @@ class Teacher {
     }
 
     /**
-     * Update a teacher
+     * Modifier un professeur
      * @param {*} id 
      * @param {*} teacher 
      * @param {*} result 

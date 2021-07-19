@@ -164,7 +164,12 @@ exports.updateTeacher = (req, res) => {
     })
 }
 
-
+/**
+ * Sauvegarder un professeur
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.saveTeacher = (req, res) => {
     let name = req.body.name;
     if (!name) {

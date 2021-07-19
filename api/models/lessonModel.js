@@ -8,8 +8,8 @@ class Lesson {
     }
 
     /**
-     * get all lessons
-     * @param {*} result is a callback
+     * Récupérer tous les cours
+     * @param {*} result est un callback
      */
     static getLessons(result) {
         db.query(
@@ -23,6 +23,11 @@ class Lesson {
         );
     }
 
+    /**
+     * Récupérer les cours selon un professeur en particulier
+     * @param {*} id 
+     * @param {*} result 
+     */
     static getLessonsByTeacher(id, result) {
         db.query(
             'SELECT * FROM lessons WHERE teacher_id = ?', [id], (err, data) => {
@@ -36,9 +41,9 @@ class Lesson {
     }
 
     /**
-     * Delete a lesson
-     * @param {*} id the id of the lesson to delete
-     * @param {*} result result is a callback
+     * Supprimer un cours
+     * @param {*} id 
+     * @param {*} result
      */
     static deleteLesson(id, result) {
         db.query("DELETE FROM lessons WHERE id = ?", [id], (err, data) => {
@@ -51,9 +56,9 @@ class Lesson {
     }
 
     /**
-     * Delete all lessons by teacher identifier 
-     * @param {*} id the id of the lesson to delete
-     * @param {*} result result is a callback
+     * Supprimer les cours liés à un professeur
+     * @param {*} id 
+     * @param {*} result 
      */
     static deleteLessonByTeacher(id, result) {
         db.query("DELETE FROM lessons WHERE teacher_id = ?", [id], (err, data) => {
@@ -66,9 +71,9 @@ class Lesson {
     }
 
     /**
-     * get lessons by name
-     * @param {*} name the name of the lesson 
-     * @param {*} result result is the callback
+     * Récupérer les cours à l'aide du nom
+     * @param {*} name 
+     * @param {*} result 
      */
     static getLessonsByName(name, result) {
         db.query(
@@ -84,7 +89,7 @@ class Lesson {
 
 
     /**
-     * get lesson by id
+     * Récupérer un cours par son identifiant
      * @param {*} id 
      * @param {*} result 
      */
@@ -102,7 +107,7 @@ class Lesson {
 
 
     /**
-     * save a lesson
+     * Sauvegarder un professeur
      * @param {*} result 
      */
     saveLesson(result) {
@@ -116,7 +121,7 @@ class Lesson {
     }
 
     /**
-     * update a lesson
+     * Modifier un professeur
      * @param {*} id 
      * @param {*} lesson 
      * @param {*} result 

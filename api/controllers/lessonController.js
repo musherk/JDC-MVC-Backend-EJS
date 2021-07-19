@@ -120,6 +120,11 @@ exports.getLesson = (req, res) => {
     })
 }
 
+/**
+ * Récupérer les cours liés à un professeur en particulier
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.getLessonsByTeacher = (req, res) => {
     let id = req.params.id;
     Lesson.getLessonsByTeacher(id, (err, data) => {
