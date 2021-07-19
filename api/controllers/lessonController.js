@@ -22,7 +22,7 @@ exports.pageLessons = (req, res) => {
                         status: 500
                     });
                 } else {
-                    res.render('pages/lessons/lessonList', { teachers, lessons });
+                    res.render('pages/lessons/lessonList', { teachers, lessons, pageName: 'lesson' });
                 }
             })
         }
@@ -42,7 +42,7 @@ exports.pageAddLesson = (req, res) => {
                 status: 500
             });
         } else {
-            res.render('pages/lessons/lessonAdd', { message: '', isAdded: false, isError: false, teachers });
+            res.render('pages/lessons/lessonAdd', { message: '', isAdded: false, isError: false, teachers, pageName: 'lesson' });
         }
     })
 
@@ -68,7 +68,7 @@ exports.pageEditLesson = (req, res) => {
                         status: 500
                     });
                 } else {
-                    res.render('pages/lessons/lessonEdit', { message: '', isAdded: false, isError: false, teachers, lesson });
+                    res.render('pages/lessons/lessonEdit', { message: '', isAdded: false, isError: false, teachers, lesson, pageName: 'lesson' });
                 }
             })
         }
@@ -185,7 +185,7 @@ exports.updateLesson = (req, res) => {
                         Lesson.updateLesson(id, lesson, (err, data) => {
                             if (err) {
                                 if (err.code === 'ER_DUP_ENTRY') {
-                                    res.render('pages/lessons/lessonEdit', { message: "Ce cours existe déjà !", isError: true, isAdded: false, teachers, lesson: { id, name: name, teacher_id } });
+                                    res.render('pages/lessons/lessonEdit', { message: "Ce cours existe déjà !", isError: true, isAdded: false, teachers, lesson: { id, name: name, teacher_id }, pageName: 'lesson' });
                                 } else {
                                     res.status(500).send({
                                         message: "Une erreur s'est produite au niveau du serveur !",
@@ -194,7 +194,7 @@ exports.updateLesson = (req, res) => {
                                 }
                             } else {
                                 if (data.affectedRows) {
-                                    res.render('pages/lessons/lessonEdit', { message: "Modification effectuée avec succès", isError: false, isAdded: true, teachers, lesson: { id, name: name, teacher_id } });
+                                    res.render('pages/lessons/lessonEdit', { message: "Modification effectuée avec succès", isError: false, isAdded: true, teachers, lesson: { id, name: name, teacher_id }, pageName: 'lesson' });
                                 } else {
                                     res.status(404).send({ message: `Le cours avec l'id '${id}' n'existe pas !`, status: 404 });
                                 }
@@ -246,7 +246,7 @@ exports.saveLesson = (req, res) => {
                                         status: 500
                                     });
                                 } else {
-                                    res.render('pages/lessons/lessonAdd', { message: "Ce cours existe déjà !", isError: true, isAdded: false, teachers });
+                                    res.render('pages/lessons/lessonAdd', { message: "Ce cours existe déjà !", isError: true, isAdded: false, teachers, pageName: 'lesson' });
                                 }
                             })
                         } else {
@@ -264,7 +264,7 @@ exports.saveLesson = (req, res) => {
                                         status: 500
                                     });
                                 } else {
-                                    res.render('pages/lessons/lessonAdd', { message: `Le cours ${name} a été ajouté !`, isError: false, isAdded: true, teachers });
+                                    res.render('pages/lessons/lessonAdd', { message: `Le cours ${name} a été ajouté !`, isError: false, isAdded: true, teachers, pageName: 'lesson' });
                                 }
                             })
                         }

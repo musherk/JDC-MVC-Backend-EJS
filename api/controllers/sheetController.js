@@ -23,7 +23,7 @@ exports.pageSheets = (req, res) => {
                     });
                 } else {
                     Lesson.getLessons((err, lessons) => {
-                        res.render('pages/sheets/sheetList', { sheets, teachers, lessons });
+                        res.render('pages/sheets/sheetList', { sheets, teachers, lessons, pageName: 'sheet' });
                     })
                 }
             });
@@ -53,7 +53,7 @@ exports.pageAddSheet = (req, res) => {
                 status: 500
             });
         } else {
-            res.render('pages/sheets/sheetAdd', { message: '', isAdded: false, isError: false, lessons });
+            res.render('pages/sheets/sheetAdd', { message: '', isAdded: false, isError: false, lessons, pageName: 'sheet' });
         }
     })
 }
@@ -78,7 +78,7 @@ exports.pageEditSheet = (req, res) => {
                         status: 500
                     });
                 } else {
-                    res.render('pages/sheets/sheetEdit', { message: '', isAdded: false, isError: false, lessons, sheet });
+                    res.render('pages/sheets/sheetEdit', { message: '', isAdded: false, isError: false, lessons, sheet, pageName: 'sheet' });
                 }
             })
         }
@@ -223,7 +223,7 @@ exports.updateSheet = (req, res) => {
                                         status: 500
                                     });
                                 } else {
-                                    res.render('pages/sheets/sheetEdit', { message: 'Modification effectuée avec succès', isAdded: true, isError: false, lessons, sheet: { id, local_number, description, lesson_id, teacher_id: lesson.teacher_id } });
+                                    res.render('pages/sheets/sheetEdit', { message: 'Modification effectuée avec succès', isAdded: true, isError: false, lessons, sheet: { id, local_number, description, lesson_id, teacher_id: lesson.teacher_id, pageName: 'sheet' } });
                                 }
                             })
                         } else {
@@ -269,7 +269,7 @@ exports.saveSheet = (req, res) => {
                                         status: 500
                                     });
                                 } else {
-                                    res.render('pages/sheets/sheetAdd', { message: `La fiche a été ajoutée !`, isError: false, isAdded: true, lessons });
+                                    res.render('pages/sheets/sheetAdd', { message: `La fiche a été ajoutée !`, isError: false, isAdded: true, lessons, pageName: 'sheet' });
                                 }
                             })
                         }

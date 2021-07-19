@@ -22,7 +22,7 @@ exports.pageTeachers = (req, res) => {
                         status: 500
                     });
                 } else {
-                    res.render('pages/teachers/teacherList', { teachers, lessons });
+                    res.render('pages/teachers/teacherList', { teachers, lessons, pageName: 'teacher' });
                 }
             })
         }
@@ -35,7 +35,7 @@ exports.pageTeachers = (req, res) => {
  * @param {*} res 
  */
 exports.pageAddTeacher = (req, res) => {
-    res.render('pages/teachers/teacherAdd', { message: '', isAdded: false, isError: false });
+    res.render('pages/teachers/teacherAdd', { message: '', isAdded: false, isError: false, pageName: 'teacher' });
 }
 
 /**
@@ -51,7 +51,7 @@ exports.pageEditTeacher = (req, res) => {
                 status: 500
             });
         } else {
-            res.render('pages/teachers/teacherEdit', { message: '', isAdded: false, isError: false, teacher });
+            res.render('pages/teachers/teacherEdit', { message: '', isAdded: false, isError: false, teacher, pageName: 'teacher' });
         }
     })
 }
@@ -147,7 +147,7 @@ exports.updateTeacher = (req, res) => {
     Teacher.updateTeacher(id, teacher, (err, data) => {
         if (err) {
             if (err.code === 'ER_DUP_ENTRY') {
-                res.render('pages/teachers/teacherEdit', { message: "Ce professeur existe déjà !", isError: true, isAdded: false, teacher: { id, name } });
+                res.render('pages/teachers/teacherEdit', { message: "Ce professeur existe déjà !", isError: true, isAdded: false, teacher: { id, name }, pageName: 'teacher' });
             } else {
                 res.status(500).send({
                     message: "Une erreur s'est produite au niveau du serveur !",
@@ -156,7 +156,7 @@ exports.updateTeacher = (req, res) => {
             }
         } else {
             if (data.affectedRows) {
-                res.render('pages/teachers/teacherEdit', { message: "Modification effectuée avec succès", isError: false, isAdded: true, teacher: { id, name } });
+                res.render('pages/teachers/teacherEdit', { message: "Modification effectuée avec succès", isError: false, isAdded: true, teacher: { id, name }, pageName: 'teacher' });
             } else {
                 res.status(404).send({ message: `Le professeur avec l'id '${id}' n'existe pas !`, status: 404 });
             }
@@ -177,7 +177,7 @@ exports.saveTeacher = (req, res) => {
     teacher.saveTeacher((err, data) => {
         if (err) {
             if (err.code === 'ER_DUP_ENTRY') {
-                res.render('pages/teachers/teacherAdd', { message: "Ce professeur existe déjà !", isError: true, isAdded: false });
+                res.render('pages/teachers/teacherAdd', { message: "Ce professeur existe déjà !", isError: true, isAdded: false, pageName: 'teacher' });
             } else {
                 res.status(500).send({
                     message: "Une erreur s'est produite au niveau du serveur !",
@@ -186,7 +186,7 @@ exports.saveTeacher = (req, res) => {
             }
         } else {
             if (data.affectedRows) {
-                res.render('pages/teachers/teacherAdd', { message: `Le professeur ${name} a été ajouté !`, isError: false, isAdded: true });
+                res.render('pages/teachers/teacherAdd', { message: `Le professeur ${name} a été ajouté !`, isError: false, isAdded: true, pageName: 'teacher' });
             }
         }
     })
